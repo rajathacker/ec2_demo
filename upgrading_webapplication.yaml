@@ -1,0 +1,14 @@
+---
+- name: Deploying Web Application
+  hosts: 'all,!localhost'
+  become: true
+  serial: 1
+  tasks:
+  - name: Upgrading Web Application
+    template:
+      src: application.j2
+      dest: /var/www/html/index.html
+  - name: Runing final checks
+    wait_for:
+      timeout: 10
+    delegate_to: localhost
